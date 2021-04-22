@@ -14,8 +14,12 @@
     "vite": "^2.1.5"
   },
   "dependencies": {
+    "autoprefixer": "^9",
     "firebase": "^8.4.1",
+    "postcss": "^7",
     "rxfire": "^4.0.0",
-    "rxjs": "^6.6.7"
+    "rxjs": "^6.6.7",
+    "svelte-routing": "^1.6.0",
+    "tailwindcss": "npm:@tailwindcss/postcss7-compat"
   }
 }

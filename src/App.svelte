@@ -1,131 +1,64 @@
 <script lang="ts">
-  import logo from "./assets/svelte.png";
-  import Counter from "./lib/Counter.svelte";
   import { db, storage } from "./firebase";
-  import { afterUpdate, createEventDispatcher, onMount } from "svelte";
+  import { afterUpdate, createEventDispatcher, onMount, setContext } from "svelte";
   import { collectionData } from "rxfire/firestore";
+  import { getDownloadURL } from "rxfire/storage";
   import { startWith } from "rxjs/operators";
+  import { Observable, Subscription } from "rxjs";
+  import type { FirebaseVideo } from "./firebase-types";
+  import Selector from "./lib/Selector.svelte";
+  import {Router, Link, Route} from "svelte-routing";
+  import Images from './routes/Images.svelte';
+  import Videos from './routes/Videos.svelte';
+  import Landing from "./routes/Landing.svelte";
+import { page, selectionId } from "./store";
 
-  let videos = [];
-  let currentVideo = null;
-  let currentVideoIndex = 0;
-  let url;
-  let selectedLabel;
-  let selections = {};
-  let refId;
-  const labels = [
-    "neutral",
-    "happy",
-    "surprised",
-    "angry",
-    "sad",
-    "fear",
-    "disgust",
-  ];
+  export let url = '';
   onMount(async () => {
-    const query = db.collection("videos");
-    collectionData(query, "id")
-      .pipe(startWith([]))
-      .subscribe((vs) => {
-        videos = vs;
-        currentVideo = vs[0];
-        getVideoUrl();
-      });
     const docRef = db.collection("selections").doc();
-    refId = docRef.id;
+    let refId = docRef.id;
     const res = await docRef.set({
       id: docRef.id,
-      selections,
+      selections: {},
+      createdAt: new Date().getTime(),
     });
+    selectionId.set(refId);
+
   });
-
-  afterUpdate(async () => {
-    console.log(selections);
-  });
-
-  function updateCurrentVideo() {
-    currentVideo = videos[currentVideoIndex];
-    selectedLabel = selections[currentVideo.name];
-    getVideoUrl();
-  }
-
-  function updateSelections() {
-    db.collection("selections")
-      .doc(refId)
-      .update({
-        selections,
-      });
-  }
-
-  async function getVideoUrl() {
-    if (currentVideo == null) {
-      return undefined;
-    }
-    const name = currentVideo.name;
-
-    const ref = storage.ref(name);
-    url = await ref.getDownloadURL();
-  }
-
-  function select(label: string) {
-    selectedLabel = label;
-    if (!!currentVideo) selections[currentVideo.name] = label;
-    updateSelections();
-  }
-
-  function nextVideo(increment: number) {
-    currentVideoIndex += increment;
-    if (currentVideoIndex >= videos.length) {
-      currentVideoIndex = 0;
-      updateCurrentVideo();
-      return;
-    }
-    if (currentVideoIndex < 0) {
-      currentVideoIndex = videos.length - 1;
-      updateCurrentVideo();
-      return;
-    }
-    console.log("here");
-    updateCurrentVideo();
-  }
-
-  function play() {
-    console.log("HI!");
-  }
-
-  // console.log(videos);
-
-  const dispatch = createEventDispatcher();
+  let current_page = 'landing';
+  const unsubscribe = page.subscribe(pg => {
+    current_page = pg;
+  })
 </script>
 
 <main>
-  <div class="container">
-    <video muted loop src={url} alt="src" autoplay>loading...</video>
-    <div class="controls">
-      <div class="label-row">
-        {#each labels as label}
-          <button
-            class={label === selectedLabel
-              ? "label-button-selected"
-              : "label-button"}
-            on:click={() => select(label)}>{label}</button
-          >
-        {/each}
-      </div>
-      <div class="button-row">
-        <button on:click={() => nextVideo(-1)} class="control-button">
-          {"<"}
-        </button>
-        <button on:click={play} class="play-button"> Play </button>
-        <button on:click={() => nextVideo(1)} class="control-button">
-          {">"}
-        </button>
-      </div>
-    </div>
-  </div>
+  {#if current_page === "landing"}
+    <Landing />
+  {:else if current_page === "videos"}
+    <Videos />
+  {:else if current_page === "images"}
+    <Images />
+  {:else}
+    <Videos />
+  {/if}
 </main>
 
-<style>
+<!-- <Router {url}>
+  <nav>
+    <Link to="/">Landing</Link>
+    <Link to="videos">Videos</Link>
+    <Link to="images">Images</Link>
+  </nav>
+  <div>
+    <Route path="videos" component={Videos} />
+    <Route path="images" component={Images} />
+    <Route path="/"><Landing /></Route>
+  </div>
+</Router> -->
+<style global lang="postcss">
+  @tailwind base;
+  @tailwind components;
+  @tailwind utilities;
   :root {
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
       Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
@@ -217,6 +150,14 @@
     font-variant-numeric: tabular-nums;
     cursor: pointer;
   }
+
+  /* button:active {
+    background-color: rgba(255, 62, 0, 0.2);
+  }
+
+  button:hover {
+    border: 2px solid #ff3e00;
+  } */
 
   video {
     max-height: 480px;
