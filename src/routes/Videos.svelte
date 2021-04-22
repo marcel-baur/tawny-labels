@@ -42,10 +42,6 @@ import {page} from "../store";
       });    
   });
 
-  afterUpdate(async () => {
-    console.log(selections);
-  });
-
   function updateCurrentVideo() {
     currentVideo = videos[currentVideoIndex];
     selectedLabel = selections[currentVideo.name];
@@ -53,8 +49,6 @@ import {page} from "../store";
   }
 
   function updateSelections() {
-    console.log(refId)
-    console.log(selectedLabel);
     db.collection("selections")
       .doc(refId)
       .update({
@@ -94,15 +88,9 @@ import {page} from "../store";
       updateCurrentVideo();
       return;
     }
-    console.log("here");
     updateCurrentVideo();
   }
 
-  function play() {
-    console.log("HI!");
-  }
-
-  // console.log(videos);
   function continueToImages() {
     page.set('images');
   }
@@ -112,13 +100,6 @@ import {page} from "../store";
   }
   function inactiveButton(): string {
     return "bg-yellow-100 text-yellow-700 text-base font-semibold px-6 py-2 rounded-lg hover:shadow-lg w-full";
-  }
-  function buttonClass(label: string) {
-    console.log(label, label === selectedLabel);
-    if (label === selectedLabel) {
-      return "bg-yellow-700 text-yellow-100 text-base font-semibold px-6 py-2 rounded-lg";
-    }
-    return "bg-yellow-100 text-yellow-700 text-base font-semibold px-6 py-2 rounded-lg";
   }
 </script>
 
@@ -138,7 +119,7 @@ import {page} from "../store";
         <button on:click={() => nextVideo(-1)} class={inactiveButton()}>
           {"<"}
         </button>
-        <button on:click={play} class={inactiveButton()}> Play </button>
+        <button on:click={() => {}} class={inactiveButton()}> Play </button>
         <button on:click={() => nextVideo(1)} class={inactiveButton()}>
           {">"}
         </button>
