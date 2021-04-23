@@ -101,7 +101,21 @@ import {page} from "../store";
   function inactiveButton(): string {
     return "bg-yellow-100 text-yellow-700 text-base font-semibold px-6 py-2 rounded-lg hover:shadow-lg w-full";
   }
+
+  function handleKeydown(event: KeyboardEvent) {
+    const key = event.key;
+    if (key === 'd' || key === 'j') {
+      nextVideo(-1);
+      return;
+    }
+    if (key === 'f' || key === 'k') {
+      nextVideo(1);
+      return;
+    }
+  }
 </script>
+
+<svelte:window on:keydown={handleKeydown} />
 
 <div class="flex flex-col justify-center items-center">
   <div class="container space-y-2">
