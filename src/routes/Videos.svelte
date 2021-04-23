@@ -103,7 +103,7 @@ import {page} from "../store";
   }
 </script>
 
-<main>
+<div class="flex flex-col justify-center items-center">
   <div class="container space-y-2">
     <video muted loop src={url} alt="src" autoplay>loading...</video>
     <div class="controls">
@@ -117,11 +117,34 @@ import {page} from "../store";
       </div>
       <div class="button-row space-x-1">
         <button on:click={() => nextVideo(-1)} class={inactiveButton()}>
-          {"<"}
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            class="h-5 w-5"
+            viewBox="0 0 20 20"
+            fill="currentColor"
+          >
+            <path
+              fill="evenodd"
+              d="M9.707 16.707a1 1 0 01-1.414 0l-6-6a1 1 0 010-1.414l6-6a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l4.293 4.293a1 1 0 010 1.414z"
+              clip="evenodd"
+            />
+          </svg>
         </button>
-        <button on:click={() => {}} class={inactiveButton()}> Play </button>
+        <!-- <button on:click={() => {}} class={inactiveButton()}> Play </button> -->
         <button on:click={() => nextVideo(1)} class={inactiveButton()}>
-          {">"}
+          <!-- {">"} -->
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            class="h-5 w-5"
+            viewBox="0 0 20 20"
+            fill="currentColor"
+          >
+            <path
+              fill="evenodd"
+              d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z"
+              clip="evenodd"
+            />
+          </svg>
         </button>
       </div>
     </div>
@@ -133,13 +156,17 @@ import {page} from "../store";
       selected={label === selectedLabel}
     />
   {/each} -->
+  <p class="font-normal text-center text-lg">
+    Once you are done with labelling the videos, switch to the images! Don't
+    worry, you can always switch back to the videos to change your labels.
+  </p>
   <button
     on:click={continueToImages}
     class="bg-red-500 text-red-200 text-base font-semibold px-6 py-2 rounded-lg hover:shadow-lg"
   >
     Continue to Images!
   </button>
-</main>
+</div>
 
 <style global lang="postcss">
   :root {

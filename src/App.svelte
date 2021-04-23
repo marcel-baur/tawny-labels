@@ -32,15 +32,17 @@ import { page, selectionId } from "./store";
 </script>
 
 <main>
-  {#if current_page === "landing"}
-    <Landing />
-  {:else if current_page === "videos"}
-    <Videos />
-  {:else if current_page === "images"}
-    <Images />
-  {:else}
-    <Videos />
-  {/if}
+  <div class="flex flex-col justify-center items-center">
+    {#if current_page === "landing"}
+      <Landing />
+    {:else if current_page === "videos"}
+      <Videos />
+    {:else if current_page === "images"}
+      <Images />
+    {:else}
+      <Videos />
+    {/if}
+  </div>
 </main>
 
 <!-- <Router {url}>
