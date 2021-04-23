@@ -1,19 +1,11 @@
 <script lang="ts">
-  import { db, storage } from "./firebase";
-  import { afterUpdate, createEventDispatcher, onMount, setContext } from "svelte";
-  import { collectionData } from "rxfire/firestore";
-  import { getDownloadURL } from "rxfire/storage";
-  import { startWith } from "rxjs/operators";
-  import { Observable, Subscription } from "rxjs";
-  import type { FirebaseVideo } from "./firebase-types";
-  import Selector from "./lib/Selector.svelte";
-  import {Router, Link, Route} from "svelte-routing";
-  import Images from './routes/Images.svelte';
-  import Videos from './routes/Videos.svelte';
+  import { db } from "./firebase";
+  import { onMount } from "svelte";
+  import Images from "./routes/Images.svelte";
+  import Videos from "./routes/Videos.svelte";
   import Landing from "./routes/Landing.svelte";
-import { page, selectionId } from "./store";
+  import { page, selectionId } from "./store";
 
-  export let url = '';
   onMount(async () => {
     const docRef = db.collection("selections").doc();
     let refId = docRef.id;
@@ -23,12 +15,11 @@ import { page, selectionId } from "./store";
       createdAt: new Date().getTime(),
     });
     selectionId.set(refId);
-
   });
-  let current_page = 'landing';
-  const unsubscribe = page.subscribe(pg => {
+  let current_page = "landing";
+  const unsubscribe = page.subscribe((pg) => {
     current_page = pg;
-  })
+  });
 </script>
 
 <main>
@@ -45,18 +36,6 @@ import { page, selectionId } from "./store";
   </div>
 </main>
 
-<!-- <Router {url}>
-  <nav>
-    <Link to="/">Landing</Link>
-    <Link to="videos">Videos</Link>
-    <Link to="images">Images</Link>
-  </nav>
-  <div>
-    <Route path="videos" component={Videos} />
-    <Route path="images" component={Images} />
-    <Route path="/"><Landing /></Route>
-  </div>
-</Router> -->
 <style global lang="postcss">
   @tailwind base;
   @tailwind components;
