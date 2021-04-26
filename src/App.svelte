@@ -4,19 +4,39 @@
   import Images from "./routes/Images.svelte";
   import Videos from "./routes/Videos.svelte";
   import Landing from "./routes/Landing.svelte";
-  import { page, selectionId } from "./store";
+  import Loading from "./routes/Loading.svelte";
+  import { batch, page, selectionId } from "./store";
 
   onMount(async () => {
+    current_page = "loading";
+    const metaRef = db.collection("groups").doc("meta");
+    const count = (await metaRef.get()).data().count;
+    let groupRef;
+    let group: string;
+    if (count % 2 === 0) {
+      group = "0405";
+      groupRef = db.collection("groups").doc(group);
+    } else {
+      group = "0914";
+      groupRef = db.collection("groups").doc(group);
+    }
+    await metaRef.update({
+      count: count + 1,
+    });
+    const groupDoc = (await groupRef.get()).data();
+    const unsubscribe = batch.set(groupDoc);
     const docRef = db.collection("selections").doc();
     let refId = docRef.id;
     const res = await docRef.set({
       id: docRef.id,
+      group,
       selections: {},
       createdAt: new Date().getTime(),
     });
     selectionId.set(refId);
+    current_page = "landing";
   });
-  let current_page = "landing";
+  let current_page = "loading";
   const unsubscribe = page.subscribe((pg) => {
     current_page = pg;
   });
@@ -30,8 +50,10 @@
       <Videos />
     {:else if current_page === "images"}
       <Images />
+    {:else if current_page === "loading"}
+      <Loading />
     {:else}
-      <Videos />
+      <Loading />
     {/if}
   </div>
 </main>

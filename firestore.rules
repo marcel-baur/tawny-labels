@@ -2,7 +2,7 @@ rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
     match /{collectionName}/{documentId} {
-      allow write: if collectionName == 'selections';
+      allow write: if collectionName == 'selections' || collectionName == 'groups';
       allow read: if true;
     }
   }

@@ -7,7 +7,7 @@
   import { Observable, Subscription } from "rxjs";
   import type { FirebaseVideo } from "../firebase-types";
   import Selector from "../lib/Selector.svelte";
-import { selectionId } from "../store";
+import { batch, selectionId } from "../store";
 import {page} from "../store";
 
   let videos: FirebaseVideo[] = [];
@@ -32,14 +32,11 @@ import {page} from "../store";
     // selections = await db.collection("selections").doc(refId).get();
   });
   onMount(async () => {
-    const query = db.collection("videos");
-    collectionData(query, "id")
-      .pipe(startWith([]))
-      .subscribe((vs: FirebaseVideo[]) => {
-        videos = vs;
-        currentVideo = vs[0];
-        getVideoUrl();
-      });    
+    const unsubscribe = batch.subscribe(batch => {
+      videos = batch.videos;
+      currentVideo = batch.videos[0];
+      getVideoUrl();
+    })
   });
 
   function updateCurrentVideo() {
