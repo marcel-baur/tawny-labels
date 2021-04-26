@@ -168,9 +168,14 @@ import {page} from "../store";
     />
   {/each} -->
   <p class="font-normal text-center text-lg">
+    You currently are at video <b class="text-indigo-600"
+      >{currentVideoIndex + 1}</b
+    >
+    of <b class="text-indigo-700">{videos.length}</b>
+    <br />
     If you forgot to label some of the images, you can always go back and finish
-    the batch. Please do not change any of the already labelled images based on
-    your perception of the videos!
+    the batch. Please do not change any of the already labelled images based on your
+    perception of the videos!
   </p>
   <button
     on:click={continueToImages}

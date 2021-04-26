@@ -3,7 +3,7 @@
 
   import { navigate } from "svelte-routing";
   function onGo() {
-    page.set("videos");
+    page.set("images");
   }
 </script>
 

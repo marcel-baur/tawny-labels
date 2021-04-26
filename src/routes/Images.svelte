@@ -168,6 +168,10 @@ import {page} from "../store";
     />
   {/each} -->
   <p class="font-normal text-center text-lg">
+    You currently are at image <b class="text-indigo-600"
+      >{currentImageIndex + 1}</b
+    >
+    of <b class="text-indigo-700">{images.length}</b>
     Once you are done with labelling the images, switch to the videos!
   </p>
   <button
