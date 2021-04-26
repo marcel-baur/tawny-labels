@@ -168,8 +168,9 @@ import {page} from "../store";
     />
   {/each} -->
   <p class="font-normal text-center text-lg">
-    Once you are done with labelling the videos, switch to the images! Don't
-    worry, you can always switch back to the videos to change your labels.
+    If you forgot to label some of the images, you can always go back and finish
+    the batch. Please do not change any of the already labelled images based on
+    your perception of the videos!
   </p>
   <button
     on:click={continueToImages}
@@ -293,11 +294,6 @@ import {page} from "../store";
     text-align: center;
     padding: 1em;
     margin: 0 auto;
-  }
-
-  img {
-    height: 16rem;
-    width: 16rem;
   }
 
   h1 {
