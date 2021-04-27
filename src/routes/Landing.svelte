@@ -13,14 +13,14 @@
     Welcome to the RAVDESS Human Labeling Tool!
     <br />
     You will be confronted with videos and still images. Please label them based
-    on the emotion you think they convey.
+    on the emotion you think they convey. Don't overthink your selection, just pick the one that seems to initially fit the best.
     <br />
     <b class="text-yellow-700">
       Please do not refresh your browser window while participating
     </b>, you will not be able to continue from your last save later on!
     <br />
-    Click on the button below to start! Once you are done with the videos, click
-    on the "Done" button on that page to contiune to the images.
+    Click on the button below to start! Once you are done with the images, click
+    on the "Continue" Button on that page to start with the videos.
   </p>
   <button
     type="button"
