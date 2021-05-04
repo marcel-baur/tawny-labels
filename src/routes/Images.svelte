@@ -172,7 +172,8 @@ import {page} from "../store";
       >{currentImageIndex + 1}</b
     >
     of <b class="text-indigo-700">{images.length}</b>
-    Once you are done with labelling the images, switch to the videos!
+    Once you are done with labelling the images, switch to the videos! Keep in mind
+    that you <b> cannot </b> return to the images!
   </p>
   <button
     on:click={continueToImages}

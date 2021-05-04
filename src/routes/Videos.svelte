@@ -172,17 +172,7 @@ import {page} from "../store";
       >{currentVideoIndex + 1}</b
     >
     of <b class="text-indigo-700">{videos.length}</b>
-    <br />
-    If you forgot to label some of the images, you can always go back and finish
-    the batch. Please do not change any of the already labelled images based on your
-    perception of the videos!
   </p>
-  <button
-    on:click={continueToImages}
-    class="bg-red-500 text-red-200 text-base font-semibold px-6 py-2 rounded-lg hover:shadow-lg"
-  >
-    Continue to Images!
-  </button>
 </div>
 
 <style global lang="postcss">
